@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
@@ -28,7 +29,7 @@ func connectToDB(dataSourceName string) *sqlx.DB {
 }
 
 func main() {
-	dsn := "host=localhost user=vk_user password=changeme dbname=eldorado sslmode=disable"
+	dsn := os.Getenv("DSN")
 	db := connectToDB(dsn)
 	defer db.Close()
 
