@@ -26,6 +26,12 @@ docker-compose up -d
 
 ## API
 
+#### Готовые коллекции для импорта:
+
+Insomnia API collection - https://mamrenko.ru/downloads/Insomnia-VK-TECH-DEMO.json
+
+Postman API collection - https://mamrenko.ru/downloads/VK-TECH-DEMO.postman_collection.json
+
 ### Создание пользователя
 
 * URL: `/create_user`
