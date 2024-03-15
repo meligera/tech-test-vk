@@ -1,5 +1,4 @@
 version: "3"
-
 services:
   db:
     image: postgres:latest
@@ -12,6 +11,12 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: on-failure
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vk_user -d eldorado"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   app:
     build: .
@@ -20,7 +25,10 @@ services:
     environment:
       DSN: "host=db user=vk_user password=changeme dbname=eldorado sslmode=disable"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app
 
 volumes:
   db-data:
