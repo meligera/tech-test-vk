@@ -186,8 +186,13 @@ func getUserHistory(c *gin.Context, db *sqlx.DB) {
 }
 
 func getAllUsers(c *gin.Context, db *sqlx.DB) {
-	var users []User
-	err := db.Select(&users, "SELECT name, balance FROM users")
+	var users []struct {
+		ID      int    `db:"id"`
+		Name    string `db:"name"`
+		Balance int    `db:"balance"`
+	}
+
+	err := db.Select(&users, "SELECT id, name, balance FROM users")
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error retrieving users."})
 		return
@@ -199,10 +204,15 @@ func getAllUsers(c *gin.Context, db *sqlx.DB) {
 }
 
 func getAllQuests(c *gin.Context, db *sqlx.DB) {
-	var quests []Quest
-	err := db.Select(&quests, "SELECT name, cost FROM quests")
+	var quests []struct {
+		ID   int    `db:"id"`
+		Name string `db:"name"`
+		Cost int    `db:"cost"`
+	}
+
+	err := db.Select(&quests, "SELECT id, name, cost FROM quests")
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error retrieving users."})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error retrieving quests."})
 		return
 	}
 
